@@ -1,79 +1,103 @@
-# Iris-Detection
-Deep Iris Detection Model using Python and Tensorflow
-This project implements a real-time eye detection and classification system using a custom-trained VGG16 model. It detects open/closed eyes and localizes the right and left eyes as colored points (red for right eye, green for left eye) on human faces.
+# Iris Detection – Real-Time Eye State & Keypoint Detection
 
-Key Features
-Real-time face & eye detection.
+## Overview
 
-Localizes right eye (🔴) and left eye (🟢) with dot markers.
+This project implements a **real-time eye and iris detection system** using **Python and TensorFlow**. The model detects human faces, localizes the **left and right eyes**, and classifies each eye as **open or closed**. The system is designed to demonstrate a complete computer vision workflow, from **manual data annotation** to **model training and real-time inference**.
 
-Classifies each eye as open or closed.
+This project also highlights strong experience in **data annotation, keypoint labeling, dataset structuring, and quality control**, making it relevant for large-scale annotation tasks and AI dataset preparation.
 
-Uses a custom dataset of face images annotated with eye keypoints.
+---
 
-Fine-tuned VGG16 model with dual-task output:
+## Key Features
 
-Eye state classification (binary)
+* Real-time face and eye detection
+* Localization of:
 
-Eye position prediction (keypoint coordinates)
+  * **Left eye** (🟢 Green dot)
+  * **Right eye** (🔴 Red dot)
+* Eye state classification: **Open / Closed**
+* Custom annotated dataset with eye keypoints
+* Multi-task deep learning model (classification + regression)
 
-Dataset
-Collected manually from Google images (open and closed eyes).
+---
 
-Annotated using LabelMe for:
+## Dataset
 
-Right eye (x, y)
+### Data Collection
 
-Left eye (x, y)
+* Images collected manually from public sources (Google Images)
+* Includes both **open-eye** and **closed-eye** samples
 
-Eye state (open = 1, closed = 0)
+### Annotation
 
-Augmentations applied with Albumentations:
+* Annotation tool: **LabelMe**
+* Each image annotated with:
 
-Random crop
+  * Left eye keypoint (x, y)
+  * Right eye keypoint (x, y)
+  * Eye state label:
 
-Brightness/contrast
+    * Open = 1
+    * Closed = 0
 
-Horizontal flip
+### Dataset Structure
 
-Gamma correction
-
-Split into:
-
-train/
-
-val/
-
-test/
+```
+data/
+├── train/
+├── val/
+└── test/
+```
 
 Each sample includes:
 
-The face image.
+* Face image
+* Label file containing:
 
-A label file with:
+  * Left & right eye coordinates
+  * Binary eye-state label
 
-Left and right eye keypoints.
+---
 
-Binary eye state.
+## Data Augmentation
 
-Model Architecture
-Base Model: VGG16 (pretrained on ImageNet, feature extractor).
+Data augmentation was applied using **Albumentations** to improve model robustness:
 
-Custom Heads:
+* Random crop
+* Brightness / contrast adjustment
+* Horizontal flip
+* Gamma correction
 
-Eye State Classification (open/closed).
+---
 
-Eye Position Regression (left & right eye keypoints).
+## Model Architecture
 
-Loss Functions:
-Binary Cross-Entropy Loss for eye state classification.
+### Base Model
 
-Mean Squared Error (MSE) for keypoint (dot) regression.
+* **VGG16** (pretrained on ImageNet)
+* Used as a feature extractor
 
-Training
-bash
-Copy
-Edit
+### Custom Heads
+
+* **Eye State Classification Head**
+
+  * Binary classification (open / closed)
+* **Eye Position Regression Head**
+
+  * Predicts left and right eye keypoints (x, y)
+
+### Loss Functions
+
+* Binary Cross-Entropy Loss → Eye state classification
+* Mean Squared Error (MSE) → Keypoint regression
+
+---
+
+## Training
+
+### Training Command
+
+```
 python train.py \
   --epochs 50 \
   --batch_size 32 \
@@ -81,60 +105,80 @@ python train.py \
   --train_dir ./data/train \
   --val_dir ./data/val \
   --model vgg16
-Real-Time Detection
-Detect and visualize eyes using webcam or image input.
+```
 
-Green dot: Left eye
+### Training Details
 
-Red dot: Right eye
+* Optimized for both classification and localization tasks
+* Validation used to monitor overfitting
 
-Label for each eye: Open or Closed
+---
 
-bash
-Copy
-Edit
+## Real-Time Detection
+
+Run real-time eye detection using a webcam or image input:
+
+```
 python detect_realtime.py
+```
+
+### Output Visualization
+
+* Face detected
+* 🔴 Red dot → Right eye
+* 🟢 Green dot → Left eye
+* Labels displayed:
+
+  * Right Eye: Open / Closed
+  * Left Eye: Open / Closed
+<img width="676" height="321" alt="image" src="https://github.com/user-attachments/assets/d6e8469d-9f56-4ebb-bd0c-73d1cd8ddc4a" />
+---
+
+## Requirements
+
+* Python 3.8+
+* TensorFlow / Keras
+* OpenCV
+* Albumentations
+* LabelMe
+* NumPy
+* Matplotlib
+
+### Install Dependencies
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+## Future Improvements
+
+* Track eyelid closure duration (e.g., driver drowsiness detection)
+* Expand dataset to handle occlusion and glasses
+* Convert model to mobile-friendly formats (TFLite / ONNX)
+* Improve performance on challenging lighting conditions
+
+---
+
+## Acknowledgements
+
+* VGG16 architecture
+* LabelMe for annotation
+* Albumentations for data augmentation
+
+---
+
+## Author
+
+**Uma**
+
+This project demonstrates end-to-end experience in **data annotation, computer vision pipelines, and real-time deep learning systems**.
+
+
+
+
+
 Example Output
 <img width="676" height="321" alt="image" src="https://github.com/user-attachments/assets/d6e8469d-9f56-4ebb-bd0c-73d1cd8ddc4a" />
 
-Face detected
-
-🔴 Red dot on right eye
-
-🟢 Green dot on left eye
-
-Labels: Right Eye: Open, Left Eye: Closed
-
-Requirements
-Python 3.8+
-
-TensorFlow or Keras
-
-OpenCV
-
-Albumentations
-
-LabelMe
-
-NumPy, Matplotlib
-
-bash
-Copy
-Edit
-pip install -r requirements.txt
-
-Future Improvements
-Add eyelid closure duration tracking (e.g., for driver drowsiness detection).
-
-Expand dataset to handle occlusion and glasses.
-
-Convert to mobile-friendly format (TFLite or ONNX).
-
-Acknowledgements
-VGG16 architecture by Simonyan & Zisserman
-
-Annotation using LabelMe
-
-Data augmentation via Albumentations
-
-<img width="676" height="321" alt="image" src="https://github.com/user-attachments/assets/d6e8469d-9f56-4ebb-bd0c-73d1cd8ddc4a" />
