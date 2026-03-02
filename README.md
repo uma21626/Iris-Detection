@@ -13,8 +13,8 @@ This project also highlights strong experience in **data annotation, keypoint la
 * Real-time face and eye detection
 * Localization of:
 
-  * **Left eye** (🟢 Green dot)
-  * **Right eye** (🔴 Red dot)
+  * **Right eye** (🟢 Green dot)
+  * **Left eye** (🔴 Red dot)
 * Eye state classification: **Open / Closed**
 * Custom annotated dataset with eye keypoints
 * Multi-task deep learning model (classification + regression)
@@ -125,8 +125,8 @@ python detect_realtime.py
 ### Output Visualization
 
 * Face detected
-* 🔴 Red dot → Right eye
-* 🟢 Green dot → Left eye
+* 🔴 Red dot → Left eye
+* 🟢 Green dot → Right eye
 * Labels displayed:
 
   * Right Eye: Open / Closed
@@ -174,11 +174,4 @@ pip install -r requirements.txt
 **Uma**
 
 This project demonstrates end-to-end experience in **data annotation, computer vision pipelines, and real-time deep learning systems**.
-
-
-
-
-
-Example Output
-<img width="676" height="321" alt="image" src="https://github.com/user-attachments/assets/d6e8469d-9f56-4ebb-bd0c-73d1cd8ddc4a" />
 
